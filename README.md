@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://www.pct-illinois.com/"><img src="./PCT-logo.png" alt="Phi Chi Theta Zeta Gamma Logo" width="200"></a>
+  <a href="https://www.pct-illinois.com/"><img src="./assets/PCT-logo.png" alt="Phi Chi Theta Zeta Gamma Logo" width="200"></a>
   <br/>
   PCT Points Automator
   </br>
