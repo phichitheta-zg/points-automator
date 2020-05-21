@@ -36,9 +36,17 @@ function saveSheetURLs() {
   scriptProperties.setProperty(SP.FORM_URL, formSheetURL);
 }
 
+function resetScript() {
+  interfaceSheet.getRange(INTERFACE.TESTS).clear();
+  scriptProperties.deleteAllProperties(); 
+  deleteTriggers();
+}
+
 function setTriggers() {
+  let formSheet = new FormSheet().sheet;
+  
   ScriptApp.newTrigger("publishNewEvent")
-    .forSpreadsheet(SHEETS.FORM)
+    .forSpreadsheet(formSheet)
     .onFormSubmit()
     .create();
 }

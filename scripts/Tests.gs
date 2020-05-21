@@ -1,9 +1,5 @@
 function runAllTests() {
-  interfaceSheet.getRange(INTERFACE.TESTS).clear();
-  saveSheetURLs();
-  
-  if (testSheetURLsSaved())
-    testSheetURLsValid();
+  testMemberKeys();
 }
 
 function printTestResult(result, range, errorMessage) {
@@ -33,24 +29,16 @@ function testSheetURLsValid() {
   }
   
   printTestResult(testPassed, INTERFACE.TEST_SHEET_URLS_VALID, `Failed! ${pointsErrorMessage} ${formErrorMessage}`);
+  return testPassed;
 }
 
 // Test if all members correctly stored into script properties
-function testScriptProperties() {
-  let testPassed = true;
-  let summarySheet = pointsSheet.getSheets()[0];
-  let members = summarySheet.getRange(`${POINTS_FIELD.FIRST_NAME}3:${POINTS_FIELD.LAST_NAME}${summarySheet.getLastRow()}`).getValues();
+function testMemberKeys() {
   let membersDict = scriptProperties.getProperties();
-
-  // Store members in scriptProperties
-  members.forEach((member, index) => {
-    if (member[0] == "") return; // continue;
-
-    if (index != membersDict[`${member[0]} ${member[1]}`]) {
-      testPassed = false;
-      return true; // break;
-    }
-  })
+  let divider = scriptProperties.getProperty(SP.DIVIDER);
+  let num_members = scriptProperties.getProperty(SP.NUM_MEMBERS);
   
-  testPassed ? console.log("scriptProperties passed") : console.log("scriptProperties failed");
+  let testPassed = (divider && num_members);
+  printTestResult(testPassed, INTERFACE.TEST_MEMBER_KEYS_SAVED, ERROR.MEMBER_KEYS_FAILED_TO_SAVE);
+  return testPassed;
 }

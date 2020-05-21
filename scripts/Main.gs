@@ -31,8 +31,22 @@ function publishNewEvent() {
 
 // Initialize sanitation processes to clean up sheets and instantiate properties
 function init() {
+  resetScript();
+  if (!saveAndTestSheets()) // break if sheets invalid
+    return;
+  
+  let pointsSheet = new PointsSheet().sheet;
   let summarySheet = pointsSheet.getSheets()[0];
   let membersRef = summarySheet.getRange(`${POINTS_FIELD.FIRST_NAME}3:${POINTS_FIELD.LAST_NAME}${summarySheet.getLastRow()}`);
+
+  cleanMemberNames(membersRef);
+  saveMemberKeys(membersRef);
+  setTriggers();
+
+  runAllTests();
+}
+
+function cleanMemberNames(membersRef) {
   let members = membersRef.getValues();
 
   // Clean members names of trailing whitespaces
@@ -41,9 +55,10 @@ function init() {
     member[1] = member[1].trim();
   })
   membersRef.setValues(members);
-  
-  // Clear scriptProperties
-  scriptProperties.deleteAllProperties();
+}
+
+function saveMemberKeys(membersRef) {
+  let members = membersRef.getValues();
 
   // Store members in scriptProperties
   let membersDict = {};
@@ -55,8 +70,13 @@ function init() {
   })
   scriptProperties.setProperties(membersDict);
   scriptProperties.setProperty(SP.NUM_MEMBERS, members.length);
+}
 
-  // initialize triggers
-  deleteTriggers();
-  setTriggers();
+function saveAndTestSheets() {
+  saveSheetURLs();
+  
+  if (testSheetURLsSaved())
+    return testSheetURLsValid();
+  else
+    return false; 
 }

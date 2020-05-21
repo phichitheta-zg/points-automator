@@ -21,9 +21,10 @@ const SP = {
 const INTERFACE = {
   POINTS_URL: "B2",
   FORM_URL: "B3",
-  TESTS: "E2:E3",
+  TESTS: "E2:E4",
   TEST_SHEET_URLS_SAVED: "E2",
   TEST_SHEET_URLS_VALID: "E3",
+  TEST_MEMBER_KEYS_SAVED: "E4"
 }
 
 const POINTS_FIELD = {
@@ -34,12 +35,13 @@ const POINTS_FIELD = {
 const ERROR = {
   URLS_FAILED_TO_SAVE: "Failed: Did you put in the sheet URLs?",
   POINTS_URL_INVALID: "Points sheet URL invalid!",
-  FORM_URL_INVALID: "Form sheet URL invalid!"
+  FORM_URL_INVALID: "Form sheet URL invalid!",
+  MEMBER_KEYS_FAILED_TO_SAVE: "Failed: Member keys failed to save to script properties."
 }
 
 // Globals
 var scriptProperties = PropertiesService.getScriptProperties();
-var interfaceURL = process.env.INTERFACE_URL;
+var interfaceURL = "https://docs.google.com/spreadsheets/d/1bZqOgt6ZG8fP1ILGOfaFk8YGEdeHTvGoxnRhKKliG7U/edit";
 var interfaceSheet = SpreadsheetApp.openByUrl(interfaceURL);
 
 function PointsSheet() {
