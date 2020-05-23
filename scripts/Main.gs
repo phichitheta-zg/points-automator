@@ -1,6 +1,16 @@
+function onFormSubmit() {
+  try {
+    publishNewEvent();
+  } catch (error) {
+    printErrorMessage(error);
+  }
+}
+
 function publishNewEvent() {
+  let formSheet = new FormSheet().sheet;
+  let pointsSheet = new PointsSheet().sheet;
   let newResponseRow = formSheet.getLastRow();
-  let newResponse = formSheet.getRange(`B${newResponseRow}:O${newResponseRow}`).getValues()[0];
+  let newResponse = formSheet.getRange(`A${newResponseRow}:O${newResponseRow}`).getValues()[0];
   let destSheet = pointsSheet.getSheetByName(newResponse[RESPONSE.EVENT_TYPE]);
   let destCol = destSheet.getLastColumn() + 1;
   

@@ -42,10 +42,26 @@ function resetScript() {
   deleteTriggers();
 }
 
+function printErrorMessage(error) {
+  let formSheet = new FormSheet().sheet;
+  let newResponseRow = formSheet.getLastRow();
+  let newResponse = formSheet.getRange(`A${newResponseRow}:O${newResponseRow}`).getValues()[0];
+  let errorSheet = interfaceSheet.getSheetByName("Errors");
+  let errorRow = errorSheet.getLastRow() + 1;
+  
+  let errorResponse = [[]];
+  errorResponse[0].push(newResponse[RESPONSE.TIMESTAMP]);
+  errorResponse[0].push(newResponse[RESPONSE.NAME]);
+  errorResponse[0].push(toUpperStr(newResponse[RESPONSE.EVENT_NAME]));
+  errorResponse[0].push(error);
+
+  errorSheet.getRange(errorRow, 1, 1, 4).setValues(errorResponse);
+}
+
 function setTriggers() {
   let formSheet = new FormSheet().sheet;
   
-  ScriptApp.newTrigger("publishNewEvent")
+  ScriptApp.newTrigger("onFormSubmit")
     .forSpreadsheet(formSheet)
     .onFormSubmit()
     .create();
